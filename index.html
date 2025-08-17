@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Make Stan Smile</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #4591e9; /* Dark purple background */
+      padding: 50px;
+      color: #fff;
+      animation: fadeIn 1.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .container {
+      background: #4548eb;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(255, 255, 255, 0.1);
+      display: inline-block;
+      animation: popIn 1s ease;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    h2 {
+      color: #ffccff;
+      text-shadow: 0 0 10px #ff99ff;
+    }
+
+    #stan {
+      width: 500px;
+      margin: 20px auto;
+      transition: transform 0.4s ease;
+    }
+
+    #message {
+      padding: 10px;
+      width: 250px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    #verifyBtn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      background: #ff00cc;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #ff00cc;
+      transition: all 0.3s ease;
+    }
+
+    #verifyBtn:hover {
+      background: #ff33dd;
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #ff66ff;
+    }
+
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .bounce {
+      animation: bounce 0.5s ease;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Prove you're human. Make Stan smile 😎</h2>
+    <img id="stan" src="normal_stan.png.png" alt="Stan">
+    <br>
+    <input type="text" id="message" placeholder="Say something to Stan...">
+    <br>
+    <button id="verifyBtn">Tell Stan</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+  const stan = document.getElementById("stan");
+  const message = document.getElementById("message");
+  const result = document.getElementById("result");
+
+  // Outfit/style images
+  const styles = [
+    "stan01.png", 
+    "stan02.png", 
+    "stan03.png", 
+    "stan04.png"
+  ];
+
+  // Face moods
+  let neutralImg = "normal_stan.png.png";
+  let smileImg   = "Happy_stan.png.png";
+  let cryImg     = "sad_stan.png.png";
+
+  // 🎲 Pick random outfit when page loads
+  window.onload = () => {
+    const randomStyle = styles[Math.floor(Math.random() * styles.length)];
+    stan.src = randomStyle;
+    neutralImg = randomStyle;  // make this outfit the neutral base
+  };
+
+  document.getElementById("verifyBtn").addEventListener("click", () => {
+    let text = message.value.toLowerCase();
+
+    // Reset image and remove bounce effect
+    stan.classList.remove("bounce");
+    void stan.offsetWidth;
+    stan.src = neutralImg;
+    result.textContent = "";
+
+    setTimeout(() => {
+      if (text.includes("cool") || text.includes("nice") || text.includes("good") || text.includes("awesome")) {
+        stan.src = smileImg;
+        result.textContent = "✅ Verified! Stan is happy!";
+        result.style.color = "lightgreen";
+      } 
+      else if (text.includes("hair") || text.includes("bald")) {
+        stan.src = cryImg;
+        result.textContent = "❌ Stan is sad. Verification failed.";
+        result.style.color = "#ff5555";
+      } 
+      else {
+        result.textContent = "😐 Stan didn’t respond...";
+        result.style.color = "#bbbbbb";
+      }
+
+      stan.classList.add("bounce");
+    }, 100);
+  });
+</script>
+
+</body>
+</html>
